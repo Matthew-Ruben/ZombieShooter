@@ -83,6 +83,9 @@ class Zombie:
     def newMethod(self):
         print("I LIKE PIE")
 
+    def newMethod2(self):
+        print("IM BORED OF PIE")
+
 
     def animate(self):
 
