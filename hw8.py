@@ -1,0 +1,103 @@
+# ----------------------------------------------------------------------
+# Name:        nascar0
+# Purpose:     demonstrate animation with tkinter
+#
+# Author:      Rula Khayrallah
+# ----------------------------------------------------------------------
+"""
+Implement a GUI app with animation in tkinter.
+
+Create then animate two car images in response to a START and STOP
+buttons.
+"""
+import tkinter
+
+
+
+class Zombie:
+
+    """
+    class to support a GUI with animated images.
+
+    Argument:
+    parent: (tkinter.Tk) the root window object
+
+    Attributes:
+    parent: (tkinter.Tk) the root window object
+    canvas: (tkinter.Canvas) A Canvas widget defining the race area.
+    red_car_image: (tkinter.PhotoImage) image of a red car.
+    old_car_image: (tkinter.PhotoImage) image of an old car.
+    red_car: (integer) object ID of the red car image created on canvas.
+    old_car: (integer) object ID of the old car image created on canvas.
+    """
+
+
+
+    def __init__(self, parent):
+        parent.title('Lets play the game!')
+        self.parent = parent
+        # create a START button and associate it with the start method
+        start_button = tkinter.Button(parent, text='START', width=20,
+                                      command=self.start)
+        start_button.grid() # register it with a geometry manager
+        # # create a STOP button and associate it with the stop method
+        # stop_button = tkinter.Button(parent, text='STOP', width=20,
+        #                              command=self.stop)
+        # stop_button.grid() # register it with a geometry manager
+        # # create a Canvas widget for the animated objects
+
+        self.sammy_image = tkinter.PhotoImage(file='sammy1.jpg')
+        self.zombie_image = tkinter.PhotoImage(file='zombie1.jpg')
+        status = tkinter.Label(parent, text='Ready to Start')
+        status.grid()
+        self.canvas = tkinter.Canvas(parent, width=500, height=500,
+                                     background='blue')
+
+
+
+
+        # self.old_car = self.canvas.create_image(25, 150,
+        #                                           image=self.old_car_image)
+
+        self.canvas.grid()
+        # self.pixels = {self.red_car:self.fast}
+
+    def start(self):
+        """
+        This method is invoked when the user presses the START button
+        :return: None
+        """
+        self.zoombies = self.canvas.create_image(25, 50,
+                                                image=zoombie_image)
+        self.go = True
+        self.animate()
+
+    def add(self):
+        """
+        This method is invoked when the user presses the STOP button
+        :return: None
+        """
+        self.go = False
+        self.animate()
+
+
+    def animate(self):
+
+        if self.go:
+            self.canvas.move(, 2, 0)
+
+            xred, yred =self.canvas.coords(self.red_car)
+            if xred < 475:
+               self.canvas.move(self.red_car,2,0)
+            xold, yold = self.canvas.coords(self.old_car)
+            if xold < 475:
+               self.canvas.move(self.old_car,1,0)
+            self.parent.after(1, self.animate) #delay 1 ms
+
+def main():
+    root = tkinter.Tk() # create the GUI aplication main window
+    game = Zoombie(root)
+    root.mainloop()  # enter the main event loop and wait
+
+if __name__ == '__main__':
+    main()
