@@ -80,6 +80,9 @@ class Zombie:
         self.go = False
         self.animate()
 
+    def newMethod(self):
+        print("I LIKE PIE")
+
 
     def animate(self):
 
