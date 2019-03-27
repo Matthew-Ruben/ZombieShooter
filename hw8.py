@@ -86,9 +86,7 @@ class Zombie:
         if self.go:
             self.canvas.move(, 2, 0)
 
-            xred, yred =self.canvas.coords(self.red_car)
-            if xred < 475:
-               self.canvas.move(self.red_car,2,0)
+
             xold, yold = self.canvas.coords(self.old_car)
             if xold < 475:
                self.canvas.move(self.old_car,1,0)
