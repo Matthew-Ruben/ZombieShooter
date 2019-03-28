@@ -14,7 +14,7 @@ import tkinter
 import zombie
 
 
-class Zombie:
+class ZombieShooter:
 
     """
     class to support a GUI with animated images.
@@ -69,7 +69,7 @@ class Zombie:
         :return: None
         """
         self.zombies = self.canvas.create_image(25, 50,
-                                                image=Zombie.get_image)
+                                                image=ZombieShooter.get_image)
         self.go = True
         self.animate()
 
@@ -94,7 +94,7 @@ class Zombie:
 
 def main():
     root = tkinter.Tk()  # create the GUI application main window
-    game = Zombie(root)
+    game = ZombieShooter(root)
     root.mainloop()  # enter the main event loop and wait
 
 
