@@ -14,8 +14,6 @@ import tkinter
 import zombie
 
 
-
-
 class Zombie:
 
     """
@@ -41,7 +39,7 @@ class Zombie:
         start_button = tkinter.Button(parent, text='START', width=20,
                                       command=self.start)
 
-        start_button.grid() # register it with a geometry manager
+        start_button.grid()  # register it with a geometry manager
 
         # # create a STOP button and associate it with the stop method
         # stop_button = tkinter.Button(parent, text='STOP', width=20,
@@ -61,13 +59,9 @@ class Zombie:
         self.sammy = []
         self.bullets = {}
 
-
-
-
+        self.go = False
 
         self.canvas.grid()
-
-
 
     def start(self):
         """
@@ -75,7 +69,7 @@ class Zombie:
         :return: None
         """
         self.zombies = self.canvas.create_image(25, 50,
-                                                 image=zombie_image)
+                                                image=Zombie.get_image)
         self.go = True
         self.animate()
 
@@ -87,25 +81,19 @@ class Zombie:
         self.go = False
         self.animate()
 
-    def newMethod(self):
-        print("I LIKE PIE")
-
-    def newMethod2(self):
-        print("IM BORED OF PIE")
-
-
     def animate(self):
 
         if self.go:
             # self.canvas.move(, 2, 0)
 
             if xold < 475:
-               self.canvas.move(self.old_car,1,0)
+                self.canvas.move(self.old_car, 1, 0)
 
-            self.parent.after(1, self.animate)  #delay 1 ms
+            self.parent.after(1, self.animate)  # delay 1 ms
+
 
 def main():
-    root = tkinter.Tk() # create the GUI application main window
+    root = tkinter.Tk()  # create the GUI application main window
     game = Zombie(root)
     root.mainloop()  # enter the main event loop and wait
 
