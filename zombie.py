@@ -2,7 +2,7 @@
 
 class Zombie:
 
-    picture = 'zombie.jpg'
+    picture = 'zombie1.jpg'
 
     def __init__(self):
         pass
