@@ -11,6 +11,8 @@ Create then animate two car images in response to a START and STOP
 buttons.
 """
 import tkinter
+import zombie
+
 
 
 
@@ -31,15 +33,16 @@ class Zombie:
     old_car: (integer) object ID of the old car image created on canvas.
     """
 
-
-
     def __init__(self, parent):
         parent.title('Lets play the game!')
         self.parent = parent
+
         # create a START button and associate it with the start method
         start_button = tkinter.Button(parent, text='START', width=20,
                                       command=self.start)
+
         start_button.grid() # register it with a geometry manager
+
         # # create a STOP button and associate it with the stop method
         # stop_button = tkinter.Button(parent, text='STOP', width=20,
         #                              command=self.stop)
@@ -53,22 +56,26 @@ class Zombie:
         self.canvas = tkinter.Canvas(parent, width=500, height=500,
                                      background='blue')
 
+        # Sprite Collections
+        self.zombies = []
+        self.sammy = []
+        self.bullets = {}
 
 
 
-        # self.old_car = self.canvas.create_image(25, 150,
-        #                                           image=self.old_car_image)
+
 
         self.canvas.grid()
-        # self.pixels = {self.red_car:self.fast}
+
+
 
     def start(self):
         """
         This method is invoked when the user presses the START button
         :return: None
         """
-        self.zoombies = self.canvas.create_image(25, 50,
-                                                image=zoombie_image)
+        self.zombies = self.canvas.create_image(25, 50,
+                                                 image=zombie_image)
         self.go = True
         self.animate()
 
@@ -90,18 +97,18 @@ class Zombie:
     def animate(self):
 
         if self.go:
-            self.canvas.move(, 2, 0)
+            # self.canvas.move(, 2, 0)
 
-
-            xold, yold = self.canvas.coords(self.old_car)
             if xold < 475:
                self.canvas.move(self.old_car,1,0)
-            self.parent.after(1, self.animate) #delay 1 ms
+
+            self.parent.after(1, self.animate)  #delay 1 ms
 
 def main():
-    root = tkinter.Tk() # create the GUI aplication main window
-    game = Zoombie(root)
+    root = tkinter.Tk() # create the GUI application main window
+    game = Zombie(root)
     root.mainloop()  # enter the main event loop and wait
+
 
 if __name__ == '__main__':
     main()
