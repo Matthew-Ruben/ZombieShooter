@@ -11,6 +11,7 @@ Create then animate two car images in response to a START and STOP
 buttons.
 """
 import tkinter
+import random
 
 
 class ZombieShooter:
@@ -46,28 +47,16 @@ class ZombieShooter:
         self.canvas.create_image(300, 300, image=self.sammy)
         self.canvas.create_image(400, 300, image=self.sammy)
 
-        # Create Zombie
+        # Create Zombies
         for i in range(20):
             self.zombie_images.insert(i, tkinter.PhotoImage(
                 file=ZombieShooter.zombie_image))
             self.zombies.insert(i, self.canvas.create_image(
-                ZombieShooter.window_width,
-                i * 25,
+                self.get_start_x(),
+                self.get_start_y(),
                 image=self.zombie_images[i]))
-            # self.zombies.append(zombie)
             print(f'zombie # {i} created')
         print(len(self.zombies))
-
-        zom_images = {i: tkinter.PhotoImage(file=ZombieShooter.zombie_image)
-                      for i in range(20)}
-        print(zom_images)
-        zoms = {zom_images[i]:
-                self.canvas.create_image(ZombieShooter.window_width,
-                                         i * 5,
-                                         image=zom_images[i])
-                for i in range(20)
-                }
-        print(zoms)
 
         # Create Start button
         start_button = tkinter.Button(parent,
@@ -88,7 +77,11 @@ class ZombieShooter:
 
         self.animate()
 
-    def get_start_pos(self):
+    def get_start_y(self):
+        return 25 * random.randint(1, 20)
+
+    def get_start_x(self):
+        return self.window_width + (random.randint(1, self.window_width))
 
 
     def animate(self):
