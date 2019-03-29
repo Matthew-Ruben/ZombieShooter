@@ -71,7 +71,7 @@ class ZombieShooter:
         :return: None
         """
         self.zombies = self.canvas.create_image(25, 50,
-                                                image=Zombie.get_image)
+                                                image=zombie.Zombie.get_image)
         self.go = True
         self.animate()
 
