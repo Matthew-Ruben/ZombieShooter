@@ -36,6 +36,7 @@ class ZombieShooter:
         self.parent.title(ZombieShooter.window_title)
 
         # Sprite Collections
+        self.zombie_images = []
         self.zombies = []
         self.bullets = set()
         self.sammy = []
@@ -43,11 +44,30 @@ class ZombieShooter:
         # Create Sammy
         self.sammy = tkinter.PhotoImage(file=ZombieShooter.sammy_image)
         self.canvas.create_image(300, 300, image=self.sammy)
+        self.canvas.create_image(400, 300, image=self.sammy)
 
         # Create Zombie
-        self.zom1_img = tkinter.PhotoImage(file=ZombieShooter.zombie_image)
-        self.zom1 = self.canvas.create_image(400, 200, image=self.zom1_img)
-        self.zombies.append(self.zom1)
+        for i in range(20):
+            self.zombie_images.insert(i, tkinter.PhotoImage(
+                file=ZombieShooter.zombie_image))
+            self.zombies.insert(i, self.canvas.create_image(
+                ZombieShooter.window_width,
+                i * 25,
+                image=self.zombie_images[i]))
+            # self.zombies.append(zombie)
+            print(f'zombie # {i} created')
+        print(len(self.zombies))
+
+        zom_images = {i: tkinter.PhotoImage(file=ZombieShooter.zombie_image)
+                      for i in range(20)}
+        print(zom_images)
+        zoms = {zom_images[i]:
+                self.canvas.create_image(ZombieShooter.window_width,
+                                         i * 5,
+                                         image=zom_images[i])
+                for i in range(20)
+                }
+        print(zoms)
 
         # Create Start button
         start_button = tkinter.Button(parent,
@@ -60,13 +80,16 @@ class ZombieShooter:
         self.canvas.grid()
 
     def start(self):
-
+        print("Start button - pressed")
         self.go = True
 
         for zombie in self.zombies:
             self.canvas.move(zombie, 2, 0)
 
         self.animate()
+
+    def get_start_pos(self):
+
 
     def animate(self):
         for zombie in self.zombies:
@@ -75,9 +98,7 @@ class ZombieShooter:
                 if x > 50:
                     self.canvas.move(zombie, -2, 0)
 
-                self.parent.after(10, self.animate)  # Try again in 1ms
-
-
+        self.parent.after(10, self.animate)  # Try again in 1ms
 
 
 class Zombie:
@@ -89,13 +110,12 @@ class Zombie:
         self.speed = speed
         self.canvas = canvas
 
-        self.photo_image = tkinter.PhotoImage(file=ZombieShooter.zombie_image)
-        self.canvas.create_image(x, y, image=self.photo_image)
+        self.photo_image = tkinter.PhotoImage(file=Zombie.picture)
+        self.canvas_item = self.canvas.create_image(x,
+                                                    y,
+                                                    image=self.photo_image)
 
         self.canvas.grid()
-
-    def get_photo_image(self):
-        return self.photo_image
 
     @classmethod
     def get_image_loc(cls):
