@@ -47,10 +47,11 @@ class ZombieShooter:
         # stop_button.grid() # register it with a geometry manager
         # # create a Canvas widget for the animated objects
 
-        self.sammy_image = tkinter.PhotoImage(file='sammy1.jpg')
-        self.zombie_image = tkinter.PhotoImage(file='zombie1.jpg')
+        # self.sammy_image = tkinter.PhotoImage(file='sammy1.jpg')
+        self.zombie_image = tkinter.PhotoImage(file=zombie.Zombie.get_image_loc())
         status = tkinter.Label(parent, text='Ready to Start')
         status.grid()
+
         self.canvas = tkinter.Canvas(parent, width=500, height=500,
                                      background='blue')
 
@@ -69,7 +70,7 @@ class ZombieShooter:
         :return: None
         """
         self.zombies = self.canvas.create_image(25, 50,
-                                                image=ZombieShooter.get_image)
+                                                image=Zombie.get_image)
         self.go = True
         self.animate()
 
@@ -82,14 +83,7 @@ class ZombieShooter:
         self.animate()
 
     def animate(self):
-
-        if self.go:
-            # self.canvas.move(, 2, 0)
-
-            if xold < 475:
-                self.canvas.move(self.old_car, 1, 0)
-
-            self.parent.after(1, self.animate)  # delay 1 ms
+        pass
 
 
 def main():
