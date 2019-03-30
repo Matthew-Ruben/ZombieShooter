@@ -5,11 +5,23 @@
 # Date:        3/29/2019
 # ----------------------------------------------------------------------
 """
-Implement a shooting game with animation in tkinter.
+A Zombie Shooter loosely inspired by the Plants vs Zombies game
 
-Create then animate two car images in response to a START and STOP
-buttons.
+Context: A zombie invasion has come upon SJSU. The GPA's of college
+dropouts around the globe have risen from the dead. Angry over the fact
+that they never reached 120 units, they are taking their revenge on the
+school. Now is the time to fight.
+
+Objective: Kill the zombies (represented in this game by black squares
+as all usable zombie images were copyrighted by their publishers) before
+they catch you. Get as high a score as possible!
+
+Controls:
+w: Moves your character up
+s: Moves your character down
+j: Fires a bullet across the screen
 """
+
 import tkinter
 import random
 import argparse
@@ -17,7 +29,7 @@ import argparse
 
 class ZombieShooter:
     """
-    class to support a GUI with animated images.
+    Class that implements the functionality of the ZombieShooter game
 
     Argument:
     parent: (tkinter.Tk) the root window object
@@ -36,6 +48,10 @@ class ZombieShooter:
     """
 
     def __init__(self, parent):
+        """
+        Initializes the ZombieShooter game
+        :param parent: the parent window of the canvas
+        """
         self.num_zombies, self.player_name = get_arguments()
         parent.title(f'{self.player_name}! Let\'s play the game!')
         self.parent = parent
@@ -80,6 +96,10 @@ class ZombieShooter:
         self.go = True
 
     def restart(self):
+        """
+        Restarts the game with fresh zombies to kill
+        :return: None
+        """
         for z in self.zombies:
             self.canvas.delete(z)
         for b in self.bullets:
@@ -89,6 +109,11 @@ class ZombieShooter:
         self.start()
 
     def move(self, event):
+        """
+        Controls movement of, and shooting by, the player character
+        :param event: the key event that triggered this method
+        :return:
+        """
         sammy_left, \
             sammy_top, \
             sammy_right, \
@@ -106,6 +131,12 @@ class ZombieShooter:
             self.go = True
 
     def shooting(self):
+        """
+        Determines which zombies have been shot by the player and
+        removes them from the game. Adds points to the player's score
+        when a zombie is killed.
+        :return: None
+        """
         if self.go:
             for b in self.bullets:
                 bullet_left, \
@@ -134,6 +165,10 @@ class ZombieShooter:
         self.parent.after(10, self.shooting)
 
     def animate(self):
+        """
+        Animates the zombies on the canvas
+        :return: None
+        """
         if self.go:
             for z in self.zombies:
                 xt, yt, xb, yb = self.canvas.coords(z)
@@ -143,7 +178,11 @@ class ZombieShooter:
 
 
 def get_arguments():
-    # Argument Parsing
+    """
+    Specifies what arguments are expected by the game. Then parses the
+    arguments and ensures their validity
+    :return: (2-tuple) number of zombies to spawn, player name
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('num_zombies',
                         help='How many zombies you would like to face',
@@ -160,6 +199,10 @@ def get_arguments():
 
 
 def main():
+    """
+    The main function that runs the program
+    :return: None
+    """
     root = tkinter.Tk()  # create the GUI application main window
     game = ZombieShooter(root)
     root.mainloop()  # enter the main event loop and wait
