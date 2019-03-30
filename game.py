@@ -1,3 +1,15 @@
+# ----------------------------------------------------------------------
+# Name:        hw8
+# Purpose:     Create animated video game
+#
+# Date:       3/29/2019
+# ----------------------------------------------------------------------
+"""
+Implement a shooting game with animation in tkinter.
+
+Create then animate two car images in response to a START and STOP
+buttons.
+"""
 import tkinter
 import random
 import argparse
@@ -11,11 +23,7 @@ class ZombieShooter:
 
     Attributes:
     parent: (tkinter.Tk) the root window object
-    canvas: (tkinter.Canvas) A Canvas widget defining the race area.
-    red_car_image: (tkinter.PhotoImage) image of a red car.
-    old_car_image: (tkinter.PhotoImage) image of an old car.
-    red_car: (integer) object ID of the red car image created on canvas.
-    old_car: (integer) object ID of the old car image created on canvas.
+
     """
 
     def __init__(self, parent):
