@@ -1,5 +1,5 @@
 import tkinter
-import zombie
+import random
 
 
 class ZombieShooter:
@@ -27,17 +27,17 @@ class ZombieShooter:
                                       command=self.start)
         start_button.grid()  # register it with a geometry manager
 
+
         self.sammy_image = tkinter.PhotoImage(file='sammy.gif')
         status = tkinter.Label(parent, text='Ready to Start')
         status.grid()
 
         self.canvas = tkinter.Canvas(parent, width=400, height=400,
                                       background='blue')
-        #self.canvas.create_image(200,200,image = self.sammy_image)
+        self.canvas.create_image(200,200,image = self.sammy_image)
         self.sammy = self.canvas.create_rectangle(0, 200, 25, 250,
                                                   fill='yellow')
-        self.zombies = self.canvas.create_rectangle(375, 0, 400, 25,
-                                                    fill='black')
+        self.zombies=[]
         self.bullet =[]
         self.canvas.bind_all('<Key>', self.move)
         self.go=False
@@ -51,15 +51,17 @@ class ZombieShooter:
         This method is invoked when the user presses the START button
         :return: None
         """
+        for i in range(5):
+            ztx=random.randint(400,600)
+            zty=random.randint(0,375)
+            self.zombies.append(self.canvas.create_rectangle(ztx, zty,
+                                                          ztx+25,zty+25,
+                                                          fill='black'))
         self.go = True
         self.animate()
-
-    def add(self):
-        """
-        This method is invoked when the user presses the STOP button
-        :return: None
-        """
+    def restart(self):
         pass
+
 
     def move(self,event):
         xt, yt, xb, yb = self.canvas.coords(self.sammy)
@@ -78,18 +80,39 @@ class ZombieShooter:
     def shooting(self):
         if self.go:
             for b in self.bullet:
-              self.canvas.move(b, 1, 0)
-        self.parent.after(1, self.shooting)
+                bxt, byt, bxb, byb = self.canvas.coords(b)
+                for z in self.zombies:
+                    xt, yt, xb, yb = self.canvas.coords(z)
+                    if byt <= yb and byb >= yt and bxb == xt:
+                        self.zombies.remove(z)
+                        self.canvas.delete(z)
+                        self.bullet.remove(b)
+                        self.canvas.delete(b)
+                    else:
+                        self.canvas.move(b, 1, 0)
 
-    def check_collision(self):
+                #self.check_collision(b)
+
+        self.parent.after(10, self.shooting)
+
+    # def check_collision(self, b):
+    #     if self.canvas.coords(b):
+    #         bxt, byt, bxb, byb = self.canvas.coords(b)
+    #     for z in self.zombies:
+    #         if self.canvas.coords(z):
+    #             xt, yt, xb, yb = self.canvas.coords(z)
+    #         if byt <= yb and byb >= yt and bxb == xt:
+    #             self.canvas.move(z,0, 500)
+    #             self.canvas.move(b, 0, 500)
 
 
     def animate(self):
         if self.go:
-            xt,yt,xb,yb = self.canvas.coords(self.zombies)
-            if xt>0:
-                self.canvas.move(self.zombies, -1, 0)
-        self.parent.after(1, self.animate)
+            for z in self.zombies:
+                xt,yt,xb,yb = self.canvas.coords(z)
+                if xt>0:
+                    self.canvas.move(z, -1, 0)
+        self.parent.after(10, self.animate)
 
 
 
