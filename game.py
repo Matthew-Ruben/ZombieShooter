@@ -1,6 +1,6 @@
 import tkinter
 import random
-
+import argparse
 
 class ZombieShooter:
     """
@@ -19,7 +19,8 @@ class ZombieShooter:
     """
 
     def __init__(self, parent):
-        parent.title('Lets play the game!')
+        self.num_zombies, self.player_name = get_arguments()
+        parent.title(f'{self.player_name}! Let\'s play the game!')
         self.parent = parent
         start_button = tkinter.Button(parent, text='START', width=20,
                                       command=self.start)
@@ -51,7 +52,7 @@ class ZombieShooter:
         This method is invoked when the user presses the START button
         :return: None
         """
-        for i in range(5):
+        for i in range(self.num_zombies):
             ztx = random.randint(400, 600)
             zty = random.randint(0, 375)
             self.zombies.append(self.canvas.create_rectangle(ztx, zty,
@@ -103,14 +104,14 @@ class ZombieShooter:
                         zombie_bottom = self.canvas.coords(z)
                     if bullet_top <= zombie_bottom \
                             and bullet_bottom >= zombie_top \
-                            and bullet_right == zombie_left:
+                            and bullet_right >= zombie_left:
                         self.zombies.remove(z)
                         self.canvas.delete(z)
                         self.bullets.remove(b)
                         self.canvas.delete(b)
                     else:
                         self.canvas.move(b, 1, 0)
-            score = 5 - len(self.zombies)
+            score = self.num_zombies - len(self.zombies)
             self.status.configure(text=f'Score: {score}', foreground='red')
             if not len(self.zombies):
                 self.status.configure(text='YOU WIN', foreground='red')
@@ -125,6 +126,22 @@ class ZombieShooter:
                 if xt > 0:
                     self.canvas.move(z, -1, 0)
         self.parent.after(10, self.animate)
+
+def get_arguments():
+    # Argument Parsing
+    parser = argparse.ArgumentParser()
+    parser.add_argument('num_zombies',
+                        help='How many zombies you would like to face',
+                        default=20)
+    parser.add_argument('player_name',
+                        help='What is your name',
+                        default='Spartan Sammy')
+    arguments = parser.parse_args()
+    num_zombies = arguments.num_zombies
+    player_name = arguments.player_name
+    print(f'num_zombies = {repr(num_zombies)}')
+    print(f'player_name = {repr(player_name)}')
+    return int(num_zombies), player_name
 
 
 def main():
