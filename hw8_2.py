@@ -19,7 +19,7 @@ def get_arguments():
     # Argument Parsing
     parser = argparse.ArgumentParser()
     parser.add_argument('num_zombies',
-                        help='How many zombies would you like to face',
+                        help='How many zombies you would like to face',
                         default=20)
     parser.add_argument('player_name',
                         help='What is your name',
@@ -40,8 +40,6 @@ class ZombieShooter:
     sammy_image = 'sammy.gif'
     zombie_image = 'zombie.gif'
     window_title = 'Lets play the game!'
-
-
 
     def __init__(self, parent):
         # Utilize command line arguments
@@ -102,6 +100,10 @@ class ZombieShooter:
 
     def start(self):
         print("Start button pressed: Let the zombie horde out!")
+        # returns early if go is already true
+        # this prevents unwanted behavior of animated objects
+        if self.go:
+            return
         self.go = True
 
         # Start Zombies
@@ -122,7 +124,6 @@ class ZombieShooter:
         if event.keysym == 'j':
             print('j')
 
-
     def shoot(self, event):
         sammy_x, sammy_y = self.canvas.coords(self.sammy)
         self.bullets.append(self.canvas.create_oval(25, sammy_y + 20,
@@ -135,6 +136,8 @@ class ZombieShooter:
             for b in self.bullets:
                 self.canvas.move(b, 1, 0)
         self.parent.after(10, self.shooting)
+
+
 
     def get_start_y(self):
         return random.randrange(1, self.window_height, 25)
