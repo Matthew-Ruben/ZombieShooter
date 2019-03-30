@@ -151,10 +151,16 @@ class ZombieShooter:
                     if bullet_top <= zombie_bottom \
                             and bullet_bottom >= zombie_top \
                             and bullet_right >= zombie_left:
-                        self.zombies.remove(z)
-                        self.canvas.delete(z)
-                        self.bullets.remove(b)
-                        self.canvas.delete(b)
+                        try:
+                            self.zombies.remove(z)
+                            self.canvas.delete(z)
+                            self.bullets.remove(b)
+                            self.canvas.delete(b)
+                        except ValueError as error:
+                            # ignores when the item
+                            # has already been removed
+                            pass
+
                     else:
                         self.canvas.move(b, 1, 0)
             score = self.num_zombies - len(self.zombies)
