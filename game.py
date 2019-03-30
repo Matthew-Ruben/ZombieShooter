@@ -24,11 +24,15 @@ class ZombieShooter:
         start_button = tkinter.Button(parent, text='START', width=20,
                                       command=self.start)
         start_button.grid()  # register it with a geometry manager
+        restart_button = tkinter.Button(parent, text='RESTART', width=20,
+                                        command=self.restart)
+        restart_button.grid()
 
         self.sammy_image = tkinter.PhotoImage(file='sammy.gif')
-        status = tkinter.Label(parent, text='Ready to Start')
-        status.grid()
-
+        self.status = tkinter.Label(parent, text='Ready to Start')
+        self.status.grid()
+        rule = tkinter.Label(parent, text="w => up; s => down; j => shoot")
+        rule.grid()
         self.canvas = tkinter.Canvas(parent, width=400, height=400,
                                      background='blue')
         self.canvas.create_image(200, 200, image=self.sammy_image)
@@ -39,6 +43,7 @@ class ZombieShooter:
         self.canvas.bind_all('<Key>', self.move)
         self.go = False
         self.shooting()
+        self.animate()
         self.canvas.grid()
 
     def start(self):
@@ -53,11 +58,19 @@ class ZombieShooter:
                                                              ztx + 25,
                                                              zty + 25,
                                                              fill='black'))
+        self.status.configure(text='Score: 0', foreground='red')
         self.go = True
-        self.animate()
+
 
     def restart(self):
-        pass
+        for z in self.zombies:
+            self.canvas.delete(z)
+        for b in self.bullets:
+            self.canvas.delete(b)
+        self.zombies=[]
+        self.bullets=[]
+        self.start()
+
 
     def move(self, event):
         sammy_left, \
@@ -97,20 +110,13 @@ class ZombieShooter:
                         self.canvas.delete(b)
                     else:
                         self.canvas.move(b, 1, 0)
-
-                # self.check_collision(b)
+            score = 5 - len(self.zombies)
+            self.status.configure(text=f'Score: {score}', foreground='red')
+            if not len(self.zombies):
+                self.status.configure(text='YOU WIN', foreground='red')
 
         self.parent.after(10, self.shooting)
 
-    # def check_collision(self, b):
-    #     if self.canvas.coords(b):
-    #         bxt, byt, bxb, byb = self.canvas.coords(b)
-    #     for z in self.zombies:
-    #         if self.canvas.coords(z):
-    #             xt, yt, xb, yb = self.canvas.coords(z)
-    #         if byt <= yb and byb >= yt and bxb == xt:
-    #             self.canvas.move(z,0, 500)
-    #             self.canvas.move(b, 0, 500)
 
     def animate(self):
         if self.go:
