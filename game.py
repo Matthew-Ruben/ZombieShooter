@@ -174,6 +174,8 @@ class ZombieShooter:
                 xt, yt, xb, yb = self.canvas.coords(z)
                 if xt > 0:
                     self.canvas.move(z, -1, 0)
+                else:
+                    self.status.configure(text='Try Again!', foreground='red')
         self.parent.after(10, self.animate)
 
 
