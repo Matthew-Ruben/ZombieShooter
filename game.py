@@ -2,7 +2,7 @@
 # Name:        hw8
 # Purpose:     Create animated video game
 #
-# Date:       3/29/2019
+# Date:        3/29/2019
 # ----------------------------------------------------------------------
 """
 Implement a shooting game with animation in tkinter.
@@ -14,6 +14,7 @@ import tkinter
 import random
 import argparse
 
+
 class ZombieShooter:
     """
     class to support a GUI with animated images.
@@ -23,7 +24,15 @@ class ZombieShooter:
 
     Attributes:
     parent: (tkinter.Tk) the root window object
-
+    num_zombies: (int) number of zombies to spawn
+    player_name: (str) name of the person playing the game
+    sammy_image: (tkinter.PhotoImage) image of the SJSU mascot
+    status: (tkinter.Label) status of the game
+    canvas: (tkinter.Canvas) canvas the game is rendered on
+    sammy: (tkinter.create_rectangle) player's character
+    zombies: (list) zombies that are trying to kill you
+    bullets: (list) bullets on the canvas
+    go: (boolean) if the game has started or not
     """
 
     def __init__(self, parent):
@@ -70,16 +79,14 @@ class ZombieShooter:
         self.status.configure(text='Score: 0', foreground='red')
         self.go = True
 
-
     def restart(self):
         for z in self.zombies:
             self.canvas.delete(z)
         for b in self.bullets:
             self.canvas.delete(b)
-        self.zombies=[]
-        self.bullets=[]
+        self.zombies = []
+        self.bullets = []
         self.start()
-
 
     def move(self, event):
         sammy_left, \
@@ -126,7 +133,6 @@ class ZombieShooter:
 
         self.parent.after(10, self.shooting)
 
-
     def animate(self):
         if self.go:
             for z in self.zombies:
@@ -134,6 +140,7 @@ class ZombieShooter:
                 if xt > 0:
                     self.canvas.move(z, -1, 0)
         self.parent.after(10, self.animate)
+
 
 def get_arguments():
     # Argument Parsing
